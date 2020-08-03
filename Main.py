@@ -1,6 +1,7 @@
 # Github: https://github.com/amasones/VisionApi_3
 
 import datetime
+import Funciones.Camara as cam
 class Asistencia:
     cedula=None
     curso=None
@@ -14,3 +15,5 @@ class Asistencia:
         self.emociones=None
     def procesar_emociones(self):
         pass
+print(cam.detector_qr())
+cam.tomar_foto()
