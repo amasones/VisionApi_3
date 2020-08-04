@@ -12,6 +12,7 @@ from google.cloud.vision import types
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'
 client = vision.ImageAnnotatorClient()
 
+
 def reconocer_caras(url):
     with io.open(url, 'rb') as image_file:
         content = image_file.read()
@@ -22,7 +23,7 @@ def reconocer_caras(url):
     faces = response.face_annotations
 
     # Names of likelihood from google.cloud.vision.enums
-    likelihood_name = ('0%', '1%', '25%', '50%', '75%', '100%')
+    likelihood_name = (0, 1, 25, 50, 75, 100)
 
     # lista simplificada de rostros con datos simplificados
     faces_list = []
@@ -72,6 +73,8 @@ def seleccionar_imagen():
         return (root.filename.name)
     except:
         return
+
+
 def detector_de_caras():
     root = Tk()
     root.title('canvas')
