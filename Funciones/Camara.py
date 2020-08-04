@@ -47,4 +47,4 @@ def tomar_foto():  # Muestra una ventana con lo que ve la camara actualmente par
             camara.release()
             cv2.destroyAllWindows()
             # Lo anterior permite liberar la camara para que no haya problemas de bucles
-            return
+            return "si"
