@@ -15,7 +15,7 @@ def detector_qr():
             if data:  # Lee los datos y los saca
                 camara.release()
                 cv2.destroyAllWindows()
-                return data
+                return eval(data)  # Convierte de string a diccionario o lista si es necesario
 
         cv2.imshow("Detector de imagenes QR", img)
 

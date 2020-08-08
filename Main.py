@@ -5,21 +5,8 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import Funciones.Camara as cam
-from Ventanas.Registro import ventana_registro
+from Ventanas.Registro import ventana_registro,Asistencia
 
-
-class Asistencia:
-    cedula = None
-    curso = None
-    foto = None
-    emociones = None
-    fecha = None
-
-    def __init__(self, cedula, curso):
-        self.cedula = cedula
-        self.curso = curso
-        self.fecha = datetime.datetime.now()
-        self.emociones = None
 
 
 class Menu_Interfaz:
@@ -35,6 +22,8 @@ class Menu_Interfaz:
             ,command=ventana_registro).grid(column=0, row=1, pady=5, padx=5, columnspan=2)
         self.boton_salir = tk.Button(raiz, text='Salir del programa', height=2, width=15,font=('Helvetica', 21)
                                         ,command=None).grid(column=0, row=2, pady=5, padx=5, columnspan=2)
+
+
 
 
 raiz = tk.Tk()
