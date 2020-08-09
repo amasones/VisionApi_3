@@ -26,6 +26,44 @@ class Asistencia:
         self.fecha = fecha
         return
 
+    @property
+    def devolver_tabla(self):
+        espanol = ["Felicidad", "Tristeza", "Enojo", "Sorpresa"]
+        ingles = ["joy", "sorrow", "anger", "surpris"]
+        comparador = 0
+        for x in self.emociones:
+            if x[1] > comparador:
+                lista = x
+                comparador = x[1]
+            else:
+                pass
+        formato = lista[0].strip("_likelihood")
+        if formato in ingles:
+            formato = espanol[ingles.index(formato)]
+        formato = formato + " = " + str(lista[1])
+        return self.fecha[0], self.identificacion, formato
+
+    def devolver_felicidad(self):
+        return self.emociones[0][1]
+
+    def devolver_tristeza(self):
+        return self.emociones[1][1]
+
+    def devolver_enojo(self):
+        return self.emociones[2][1]
+
+    def devolver_sorpresa(self):
+        return self.emociones[3][1]
+
+    def devolver_curso(self):
+        return self.curso
+
+    def devolver_fecha(self):
+        return self.fecha[0]
+
+    def devolver_cedula(self):
+        return self.identificacion
+
 
 class Ventana_Registro:
     def __init__(self, ven):
@@ -40,21 +78,21 @@ class Ventana_Registro:
         self.root = ven
         ven.title("Reconocimiento de Rostros")  # titulo de la ventana
         ven.configure(bg='beige')  # Color de fondo
-        self.instrucciones = Label(ven, text='Elija una opción', bg='beige', font=('Helvetica', 21)).\
+        self.instrucciones = Label(ven, text='Elija una opción', bg='beige', font=('Helvetica', 21)). \
             grid(column=0, row=0, columnspan=4, pady=10)  # Label con instrucciones
 
         self.boton_foto = Button(ven, text='Tomar una foto\ndesde webcam', height=2, width=16, font=('Helvetica', 21)
-                                 , command=sub_tomar_foto)\
+                                 , command=sub_tomar_foto) \
             .grid(column=0, row=1, pady=5, padx=5, columnspan=2)
         self.boton_seleccionar = Button(ven, text='Seleccionar una foto\ndesde el equipo', height=2, width=16,
-                                    font=('Helvetica', 21), command=sub_cargar_imagen)\
-            .grid(column=2, row=1, pady=5,padx=5, columnspan=2)
+                                        font=('Helvetica', 21), command=sub_cargar_imagen) \
+            .grid(column=2, row=1, pady=5, padx=5, columnspan=2)
 
         self.boton_siguiente = Button(ven, text='Siguiente', height=2, width=16, font=('Helvetica', 21),
-                                      command=sub_siguiente)\
+                                      command=sub_siguiente) \
             .grid(column=0, row=2, pady=5, padx=5, columnspan=4)
         self.boton_guardar = Button(ven, text='Guardar y volver al menú', height=2, width=20, font=('Helvetica', 21),
-                                    command=self.salir)\
+                                    command=self.salir) \
             .grid(column=0, row=3, pady=15, padx=5, columnspan=4)
 
     def salir(self):
@@ -71,6 +109,7 @@ class Ventana_Registro:
 
         except FileNotFoundError:
             messagebox_info("Falta informacion por llenar", "Error")
+            print(cursos)
         return
 
 
@@ -78,6 +117,7 @@ class SubVentana_Foto:
     """
     Toma una foto desde la webcam y la procesa mediante Google Vision, por ultimo lo guarda en el archivo "foto.dat"
     """
+
     def __init__(self, ven):
         self.root = ven
         ven.withdraw()  # Hace que la ventana no aparezca
@@ -103,12 +143,14 @@ class SubVentana_Cargar:
     """
     Agarra una direccion en el equipo donde esté almacenada una foto, la procesa la API y la escribe en foto.dat
     """
+
     def __init__(self, ven):
         self.root = ven
         ven.withdraw()
         self.cargar()
 
-    def cargar(self):
+    @staticmethod
+    def cargar():
         datos = procesar_cargado()
         guardar_archivo("Datos/foto.dat", datos)
         messagebox_info("La foto ha sido procesada", "Listo")
@@ -147,7 +189,7 @@ class SubVentana_Siguiente:
 
         self.boton_qr = Button(ven, text='Cargar\ncódigo QR', height=3, width=12, font=('Helvetica', 21),
                                command=self.cargar_QR) \
-            .grid(column=0, row=3, pady=10,padx=20, columnspan=1)
+            .grid(column=0, row=3, pady=10, padx=20, columnspan=1)
         self.boton_guardar = Button(ven, text='Guardar', height=2, width=12, font=('Helvetica', 21)
                                     , command=self.guardar_datos) \
             .grid(column=1, row=3, pady=10, columnspan=1)
@@ -183,6 +225,7 @@ class SubVentana_Siguiente:
 Las siguientes funciones solo sirven para poder ser asigandas a un botón y poder abrir una ventana 
 """
 
+
 def ventana_registro():
     root = Toplevel()
     Ventana_Registro(root)
@@ -212,10 +255,13 @@ def sub_guardar():
     memoria
     """
     datos = retornar_archivo("Datos/registro.dat")
-    for x, y in datos.items():
-        asignador = Asistencia()
-        asignador.asignar_datos(x, y[0], y[1], y[2])
-        cursos.append(asignador)
+    try:
+        for x, y in datos.items():
+            asignador = Asistencia()
+            asignador.asignar_datos(x, y[0], y[1], y[2])
+            cursos.append(asignador)
+    except FileNotFoundError:
+        messagebox_info("Por favor clickee en siguiente y llene los datos solicitados", "Error")
     print(cursos)
     return
 
