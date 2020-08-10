@@ -31,6 +31,11 @@ class Asistencia:
 
     @property
     def devolver_tabla(self):
+        """
+        retorna self.fecha[0], self.identificacion, self.emociones pero ésta última se traducen los nombre al español
+        ej ("Felicidad","1")
+        :return:
+        """
         espanol = ["Felicidad", "Tristeza", "Enojo", "Sorpresa"]
         ingles = ["joy", "sorrow", "anger", "surpris"]
         comparador = 0
@@ -45,6 +50,10 @@ class Asistencia:
             formato = espanol[ingles.index(formato)]
         formato = formato + " = " + str(lista[1])
         return self.fecha[0], self.identificacion, formato
+
+    """
+    Retornan una variable en especifico
+    """
 
     def devolver_felicidad(self):
         return self.emociones[0][1]
