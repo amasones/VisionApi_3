@@ -4,6 +4,12 @@ import tkinter as tk
 
 from Ventanas.Registro import ventana_registro
 from Ventanas.Reportes import ventana_reporte
+from Funciones.Abrir_y_cerrar import guardar_binario, cargar_memoria
+
+try:  # Trata de cargar los datos guardados de la sesion pasada, de lo contrario comienza fresco
+    cargar_memoria()
+except FileNotFoundError:
+    pass
 
 
 class Menu_Interfaz:
@@ -20,7 +26,11 @@ class Menu_Interfaz:
         self.boton_reporte = tk.Button(ven, text='Ver reportes', height=2, width=15, font=('Helvetica', 21)
                                        , command=ventana_reporte).grid(column=0, row=2, pady=15, padx=20, columnspan=2)
         self.boton_salir = tk.Button(ven, text='Salir del programa', height=2, width=15, font=('Helvetica', 21)
-                                     , command=None).grid(column=0, row=3, pady=15, padx=20, columnspan=2)
+                                     , command=self.guardar_salir).grid(column=0, row=3, pady=15, padx=20, columnspan=2)
+
+    def guardar_salir(self):
+        guardar_binario()
+        self.raiz.destroy()
 
 
 raiz = tk.Tk()

@@ -26,6 +26,9 @@ class Asistencia:
         self.fecha = fecha
         return
 
+    def devolver_diccionario(self):
+        return {self.curso: (self.identificacion, self.emociones, self.fecha)}
+
     @property
     def devolver_tabla(self):
         espanol = ["Felicidad", "Tristeza", "Enojo", "Sorpresa"]
